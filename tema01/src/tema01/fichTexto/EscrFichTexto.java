@@ -35,7 +35,7 @@ public class EscrFichTexto {
 			}
 			fw.append('*');
 			fw.close();
-			esAppend=true;
+			esAppend=true; // Ya ha pasado la primera escritura
 			
 			// escritura con buffer
 			System.out.println("Escritura con búffer.");
