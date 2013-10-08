@@ -19,10 +19,6 @@ public class LeeObjDir {
 				}
 	}
 
-	/*
-	 * Método recursivo
-	 */
-	
 	public void lista(File f) {
 		boolean isDir;
 		File[] aArchivos = f.listFiles();

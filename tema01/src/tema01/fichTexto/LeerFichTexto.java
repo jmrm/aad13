@@ -20,7 +20,7 @@ public class LeerFichTexto {
 			pF=args[0];
 			File f = new File (pF);
 			FileReader fr = new FileReader(f);
-			// lectura carácter a carácter :-)
+			// lectura carácter a carácter
 			System.out.println("Lectura carácter a carácter");
 			while ((ch=fr.read())!=-1) { // mientras queden caracteres sin leer
 				System.out.print((char) ch);
