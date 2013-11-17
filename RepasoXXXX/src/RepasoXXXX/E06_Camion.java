@@ -38,7 +38,17 @@ public class E06_Camion extends E05_Coche {
 		 * llegan a rodar. Si alguna rueda del remolque está pinchada y ya han "rodado" alguna
 		 * de las anteriores, se vuelven a rodar éstas invirtiendo el sentido de rodadura
 		 */
-		super.rodar(km);
+		try {
+			super.rodar(km);
+		}
+		// Si la excepción es que hay alguna rueda pinchada en la parte tractora no intenta 
+		// rodar las ruedas del remolque
+		catch (E03_RuedaPinchadaException E03_rpe) {
+			throw new Exception ("No se ha podido rodar. Rueda de parte tractora pinchada.");
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 		int i=0;
 		try {
 			for (i = 0; i < ruedasRemolque.length; i++)
@@ -78,9 +88,10 @@ public class E06_Camion extends E05_Coche {
 			c.rodar(15000);
 			c1.rodar(45000);
 			c2.rodar(25477);
-			c.ruedasRemolque[3].pinchar(); // pinchamos una rueda del remolque
-			c2.rdas[3].pinchar(); // pinchamos una rueda de la parte "coche"
+			//c.ruedasRemolque[3].pinchar(); // pinchamos una rueda del remolque
+			//c2.rdas[3].pinchar(); // pinchamos una rueda de la parte "coche"
 			c.rodar(350000);
+			c2.rodar(150000);
 		}
 		catch (Exception e)
 		{

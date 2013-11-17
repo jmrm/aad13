@@ -45,7 +45,7 @@ public class E05_Coche {
 			for (int j = 0; j < i; j++) {
 				rdas[j].rodar(-km);
 			}
-			throw new Exception("No ha podido rodar. Pinchada la rueda "+i);
+			throw new E03_RuedaPinchadaException("No ha podido rodar. Pinchada la rueda "+i);
 		}
 	}
 
