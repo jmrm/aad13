@@ -44,12 +44,16 @@ public class E06_Camion extends E05_Coche {
 		// Si la excepción es que hay alguna rueda pinchada en la parte tractora no intenta 
 		// rodar las ruedas del remolque
 		catch (E03_RuedaPinchadaException E03_rpe) {
+			// Al disparar una nueva excepción retorna directamente al método invocante
 			throw new Exception ("No se ha podido rodar. Rueda de parte tractora pinchada.");
 		}
+		// Si le excepción es de motor agotado simplemente visualiza un mensaje y sigue, pues
+		// esta excepción permite rodar con lo que las ruedas de la parte tractora habrán rodado
 		catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		int i=0;
+		// Anda con cuidado por si alguna rueda del remolque está pinchada
 		try {
 			for (i = 0; i < ruedasRemolque.length; i++)
 				ruedasRemolque[i].rodar(km);	
