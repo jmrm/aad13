@@ -65,7 +65,7 @@ public class E06_Camion extends E05_Coche {
 			for (int j = 0; j < i; j++) {
 				ruedasRemolque[j].rodar(-km);
 			}
-			throw new Exception("No ha podido rodar. Pinchada la rueda de repuesto "+i);
+			throw new E03_RuedaPinchadaException("No ha podido rodar. Pinchada la rueda de repuesto "+i);
 		}
 	}
 		
