@@ -1,4 +1,4 @@
-package tema01.fichTexto;
+package tema01_fichTexto;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

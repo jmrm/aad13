@@ -1,4 +1,4 @@
-package tema01.fichAleat;
+package tema01_fichAleat;
 
 import java.io.File;
 import java.io.IOException;

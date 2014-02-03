@@ -1,4 +1,4 @@
-package tema01.Serializ;
+package tema01_Serializ;
 
 import java.io.Serializable;
 

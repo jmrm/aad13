@@ -1,4 +1,4 @@
-package tema01.path;
+package tema01_path;
 
 import java.io.*;
 

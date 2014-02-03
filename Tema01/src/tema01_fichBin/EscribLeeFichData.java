@@ -1,4 +1,4 @@
-package tema01.fichBin;
+package tema01_fichBin;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
