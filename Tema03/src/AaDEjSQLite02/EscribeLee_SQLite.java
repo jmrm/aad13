@@ -1,4 +1,4 @@
-package AaDEjMySQL02;
+package AaDEjSQLite02;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 
-public class EscribeLee_MySQL {
+public class EscribeLee_SQLite {
 
 	/**
 	 * Esta clase permite llevar a cabo el proceso de escritura inicial OO,
@@ -18,7 +18,7 @@ public class EscribeLee_MySQL {
 	 * @param args
 	 */
 	
-	final static String bDAlu ="alumnos13_14", tblAlu="alumnos";
+	final static String bDAlu ="alumnos13_14.sqlite", tblAlu="alumnos";
 	final static char SEP='*';
 	final static String[] camposBD= {
 			"identificador",
@@ -39,11 +39,11 @@ public class EscribeLee_MySQL {
 		 * 
 		 */
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			cnt=DriverManager.getConnection("jdbc:mysql://localhost/"+bDAlu,"root","root");
+			Class.forName("org.sqlite.JDBC");
+			cnt=DriverManager.getConnection("jdbc:sqlite:"+bDAlu);
 		}
 		catch (ClassNotFoundException cnfe) {
-			System.out.println("No ha sido posible cargar el driver MySQL JDBC");
+			System.out.println("No ha sido posible cargar el driver SQLite JDBC");
 			System.exit(1);
 		}
 		catch (SQLException sqle) {
@@ -72,12 +72,13 @@ public class EscribeLee_MySQL {
 		fechaN[5]="1986/09/13";
 		float califAlum[]={7.56f,8.12f,7,4.7f,4.2f,9,95f,5.1f};
 		int coefIntelig[]={120,145,118,98,192,102};
-		Statement sent;
-		ResultSet cursor;
+		Statement sent,sent2;
+		ResultSet cursor,cursor2;
 		// Vamos a cargar los datos en una colección ArrayList<Alumnos>
 		cargaAlumno(codigo,nombre,fechaN,califAlum,coefIntelig);
 		try {
 			sent= cnt.createStatement();
+			sent2=cnt.createStatement();
 			StringBuffer txtSent=new StringBuffer(); //Para construir la sentencia
 			// Borramos los valores anteriores que puedan existir
 			// Usamos transacciones
@@ -102,13 +103,18 @@ public class EscribeLee_MySQL {
 				sent.executeUpdate(txtSent.toString());
 				cnt.commit(); //confirmamos la transacción 
 			}
-			System.out.println("Registros escritos BD MySQL "+bDAlu+"."+tblAlu);
+			System.out.println("Registros escritos BD SQLite "+bDAlu+"."+tblAlu);
 			txtSent.setLength(0);
 			txtSent.append("SELECT * FROM "+tblAlu);
 			cursor=sent.executeQuery(txtSent.toString());
-			listResult(cursor);
+			txtSent.setLength(0);
+			txtSent.append("SELECT count(*) AS 'NumFil' FROM "+tblAlu);
+			cursor2=sent2.executeQuery(txtSent.toString());;
+			listResult(cursor,cursor2);
 			cursor.close();
+			cursor2.close();
 			sent.close();
+			sent2.close();
 			cnt.close();
 		}
 		catch (SQLException sqle) {
@@ -118,6 +124,7 @@ public class EscribeLee_MySQL {
 			System.out.println("Mensaje error:"+sqle.getMessage());
 			System.exit(1);
 		}
+		System.out.println("Programa terminado");
 		System.exit(0);
 	}
 	
@@ -131,15 +138,16 @@ public class EscribeLee_MySQL {
 	}
 	
 	// Visualiza los resultados obtenidos a partir de un cursor
-	public static int listResult(ResultSet cursor) throws SQLException{
+	// Versión para cursores que son TYPE_FORWARD_ONLY 
+	public static int listResult(ResultSet cursor, ResultSet cursor2) throws SQLException{
 		int nReg=0;
-		// El método last devuelve false si el cursor está vacío
-		if (!cursor.last()) {
+		while (cursor2.next()) {
+			nReg=cursor2.getInt(1); //Nº de filas que tiene el cursor de datos
+		}
+		if (nReg==0) {
 			System.out.println("No hay registros de alumnos.");
 		}
 		else {
-			nReg=cursor.getRow(); // Nº de filas que tiene el cursor
-			cursor.beforeFirst(); // Posiciona el puntero del cursor antes de la 1ª fila
 			System.out.print("Se han encontrado ");
 			System.out.print(nReg);
 			System.out.println(" alumnos.");
